@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulce Tentación - Repostería Artesanal & Portafolio</title>
+    <!-- Fuentes e Iconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-cream: #fffbf7;
+            --pink-primary: #e85d75;
+            --pink-soft: #fde8ed;
+            --pink-accent: #ff85a1;
+            --chocolate-dark: #3d2314;
+            --chocolate-medium: #5c3823;
+            --caramel-warm: #d97736;
+            --green-fit: #2e7d32;
+            --green-fit-light: #e8f5e9;
+            --text-dark: #2b1810;
+            --text-muted: #6e5244;
+            --white: #ffffff;
+            --shadow-soft: 0 10px 30px rgba(61, 35, 20, 0.06);
+            --shadow-hover: 0 18px 40px rgba(232, 93, 117, 0.16);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Fredoka', cursive;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* NAVEGACIÓN FIJA */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 251, 247, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(92, 56, 35, 0.08);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 85px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--pink-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 10px rgba(232, 93, 117, 0.15);
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--chocolate-dark);
+        }
+
+        .logo-text span {
+            color: var(--pink-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* BOTÓN DEL MENÚ TIPO DONA */
+        .donut-trigger-btn {
+            background: var(--pink-soft);
+            color: var(--pink-primary);
+            border: 2px solid var(--pink-accent);
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .donut-trigger-btn:hover {
+            background: var(--pink-primary);
+            color: var(--white);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(232, 93, 117, 0.3);
+        }
+
+        /* MENÚ FLOTANTE TIPO DONA RADIAL */
+        .donut-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(43, 24, 16, 0.85);
+            backdrop-filter: blur(16px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+
+        .donut-menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .donut-menu-container {
+            position: relative;
+            width: 520px;
+            height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut-center-hub {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--white);
+            border-radius: 50%;
+            border: 6px solid var(--pink-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(232, 93, 117, 0.4);
+            z-index: 10;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .donut-center-hub span {
+            font-family: 'Fredoka', cursive;
+            color: var(--chocolate-dark);
+            font-size: 1.1rem;
+            line-height: 1.1;
+        }
+
+        .donut-item {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--chocolate-dark);
+            font-size: 0.82rem;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 3px solid #ffd6e0;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .donut-item i {
+            color: var(--pink-primary);
+            margin-bottom: 4px;
+        }
+
+        .donut-item:hover {
+            transform: scale(1.18);
+            background: var(--pink-primary);
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .donut-item:hover i {
+            color: var(--white);
+        }
+
+        .donut-pos-1 { transform: translate(0px, -190px); }
+        .donut-pos-2 { transform: translate(160px, -100px); }
+        .donut-pos-3 { transform: translate(180px, 80px); }
+        .donut-pos-4 { transform: translate(70px, 180px); }
+        .donut-pos-5 { transform: translate(-70px, 180px); }
+        .donut-pos-6 { transform: translate(-180px, 80px); }
+        .donut-pos-7 { transform: translate(-160px, -100px); }
+
+        .donut-close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: 2px solid var(--white);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .donut-close-btn:hover {
+            background: var(--pink-primary);
+            border-color: var(--pink-primary);
+            transform: rotate(90deg);
+        }
+
+        /* PORTAFOLIO PRINCIPAL / HERO */
+        .hero-portafolio { padding: 140px 0 70px; }
+        .hero-banner {
+            background: linear-gradient(135deg, #fde8ed 0%, #fff0f3 100%);
+            border-radius: var(--radius-large);
+            padding: 3.5rem 3rem;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+            align-items: center;
+            border: 1px solid rgba(232, 93, 117, 0.15);
+            margin-bottom: 3.5rem;
+        }
+        .hero-banner h1 { font-size: 3.2rem; color: var(--chocolate-dark); line-height: 1.1; margin-bottom: 1rem; }
+        .hero-banner h1 span { color: var(--pink-primary); }
+        .hero-banner p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.8rem; }
+        .hero-tags { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-tag-item { background: var(--white); color: var(--chocolate-dark); padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+        .portfolio-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 3rem; flex-wrap: wrap; }
+        .tab-btn { background: var(--white); border: 1px solid rgba(92, 56, 35, 0.1); padding: 10px 22px; border-radius: 30px; font-weight: 600; color: var(--chocolate-medium); cursor: pointer; transition: all 0.3s ease; font-size: 0.92rem; }
+        .tab-btn.active, .tab-btn:hover { background: var(--pink-primary); color: var(--white); border-color: var(--pink-primary); box-shadow: 0 4px 15px rgba(232, 93, 117, 0.25); }
+        .tab-btn.fit-tab.active { background: var(--green-fit); border-color: var(--green-fit); box-shadow: 0 4px 15px rgba(46, 125, 50, 0.25); }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+        .product-card { background: var(--white); border-radius: var(--radius-medium); overflow: hidden; box-shadow: var(--shadow-soft); border: 1px solid rgba(92, 56, 35, 0.06); transition: all 0.3s ease; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+        .product-img-box { position: relative; height: 210px; overflow: hidden; background: #fdf5f0; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .product-img { transform: scale(1.08); }
+        .badge-fit-label { position: absolute; top: 12px; right: 12px; background: var(--green-fit); color: var(--white); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .product-info { padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-name { font-size: 1.2rem; color: var(--chocolate-dark); margin-bottom: 0.4rem; }
+        .product-sweetener { font-size: 0.8rem; color: var(--green-fit); font-weight: 600; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 4px; }
+        .product-bottom { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px dashed rgba(92, 56, 35, 0.1); }
+        .product-portion { font-size: 0.85rem; color: var(--text-muted); }
+        .product-price { font-size: 1.25rem; font-weight: 800; color: var(--pink-primary); font-family: 'Fredoka', cursive; }
+
+        section { padding: 80px 0; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 3rem; }
+        .section-tag { color: var(--pink-primary); font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1.5px; margin-bottom: 0.4rem; display: block; }
+        .section-title { font-size: 2.5rem; color: var(--chocolate-dark); }
+
+        .diagram-img-card { background: var(--white); border-radius: var(--radius-large); padding: 1.5rem; box-shadow: var(--shadow-soft); border: 1px solid rgba(92, 56, 35, 0.08); text-align: center; overflow: hidden; }
+        .diagram-img { width: 100%; max-width: 1000px; height: auto; border-radius: var(--radius-medium); box-shadow: 0 8px 25px rgba(0,0,0,0.06); transition: transform 0.3s ease; }
+        .diagram-img:hover { transform: scale(1.01); }
+
+        .survey-card { background: var(--chocolate-dark); color: var(--white); border-radius: var(--radius-large); padding: 3.5rem; box-shadow: 0 20px 40px rgba(61, 35, 20, 0.25); }
+        .survey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { font-size: 0.88rem; color: #d0b8ac; font-weight: 600; }
+        .form-input, .form-select, .form-textarea { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px 16px; border-radius: 10px; color: var(--white); font-family: inherit; font-size: 0.9rem; }
+
+        footer { background: #2b1810; color: #b09b8e; padding: 40px 0 25px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+
+        @media (max-width: 992px) {
+            .hero-banner, .survey-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            .donut-menu-container { width: 340px; height: 340px; }
+            .donut-item { width: 80px; height: 80px; font-size: 0.7rem; }
+            .donut-pos-1 { transform: translate(0px, -130px); }
+            .donut-pos-2 { transform: translate(110px, -70px); }
+            .donut-pos-3 { transform: translate(120px, 50px); }
+            .donut-pos-4 { transform: translate(50px, 120px); }
+            .donut-pos-5 { transform: translate(-50px, 120px); }
+            .donut-pos-6 { transform: translate(-120px, 50px); }
+            .donut-pos-7 { transform: translate(-110px, -70px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado de Navegación -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <div class="logo-icon">🍩</div>
+                    <div class="logo-text">Dulce <span>Tentación</span></div>
+                </a>
+                <div class="nav-actions">
+                    <button class="donut-trigger-btn" onclick="toggleDonutMenu()">
+                        <span>🍩 Menú Dona</span>
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Overlay del Menú Dona Radial -->
+    <div class="donut-menu-overlay" id="donutOverlay">
+        <button class="donut-close-btn" onclick="toggleDonutMenu()">✕</button>
+        <div class="donut-menu-container">
+            <div class="donut-center-hub">
+                <span>Dulce<br>Tentación</span>
+                <small style="font-size:0.65rem; color:var(--text-muted);">Menú 360°</small>
+            </div>
+
+            <!-- Enlaces Radiales -->
+            <a href="#portafolio" class="donut-item donut-pos-1" onclick="toggleDonutMenu()">
+                <i data-lucide="cake"></i>
+                <span>Portafolio</span>
+            </a>
+            <a href="#fit-line" class="donut-item donut-pos-2" onclick="toggleDonutMenu()">
+                <i data-lucide="leaf"></i>
+                <span>Sin Azúcar</span>
+            </a>
+            <a href="#historia" class="donut-item donut-pos-3" onclick="toggleDonutMenu()">
+                <i data-lucide="users"></i>
+                <span>Nosotros</span>
+            </a>
+            <a href="#filosofia" class="donut-item donut-pos-4" onclick="toggleDonutMenu()">
+                <i data-lucide="heart"></i>
+                <span>Filosofía</span>
+            </a>
+            <a href="#procesos" class="donut-item donut-pos-5" onclick="toggleDonutMenu()">
+                <i data-lucide="git-merge"></i>
+                <span>Procesos</span>
+            </a>
+            <a href="#organigrama" class="donut-item donut-pos-6" onclick="toggleDonutMenu()">
+                <i data-lucide="sitemap"></i>
+                <span>Organigrama</span>
+            </a>
+            <a href="#contacto" class="donut-item donut-pos-7" onclick="toggleDonutMenu()">
+                <i data-lucide="message-square"></i>
+                <span>Encuesta</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main>
+
+        <!-- Sección de Portafolio Principal -->
+        <section id="portafolio" class="hero-portafolio">
+            <div class="container">
+                <div class="hero-banner">
+                    <div>
+                        <span class="section-tag">✨ Repostería Artesanal en Bogotá</span>
+                        <h1>Sabor, Calidad & <span>Creatividad</span></h1>
+                        <p>
+                            Bienvenido a nuestro portafolio de productos. Descubre opciones artesanales hechas con amor para celebraciones, reuniones o antojitos diarios.
+                        </p>
+                        <div class="hero-tags">
+                            <span class="hero-tag-item">🍰 Tortas Especiales</span>
+                            <span class="hero-tag-item">🧁 Cupcakes & Brownies</span>
+                            <span class="hero-tag-item">🌱 Línea Sin Azúcar Añadida</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Postres Dulce Tentación" style="width:100%; max-width:320px; border-radius:20px; box-shadow:var(--shadow-soft);">
+                    </div>
+                </div>
+
+                <!-- Pestañas de Filtro -->
+                <div class="portfolio-tabs">
+                    <button class="tab-btn active" onclick="filterCategory('all', this)">Todos</button>
+                    <button class="tab-btn" onclick="filterCategory('tortas', this)">Tortas</button>
+                    <button class="tab-btn" onclick="filterCategory('cupcakes', this)">Cupcakes</button>
+                    <button class="tab-btn" onclick="filterCategory('galletas', this)">Galletas</button>
+                    <button class="tab-btn" onclick="filterCategory('brownies', this)">Brownies</button>
+                    <button class="tab-btn" onclick="filterCategory('postres', this)">Postres</button>
+                    <button class="tab-btn fit-tab" onclick="filterCategory('fit', this)">🌱 Sin Azúcar Añadida</button>
+                    <button class="tab-btn" onclick="filterCategory('regalos', this)">🎁 Cajas y Regalos</button>
+                </div>
+
+                <!-- Tarjetas de Productos -->
+                <div class="products-grid">
+                    <div class="product-card" data-cat="tortas">
+                        <div class="product-img-box">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Torta de Chocolate">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Torta de Chocolate</h3>
+                            <div class="product-bottom">
+                                <span class="product-portion">8 porciones</span>
+                                <span class="product-price">$48.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-cat="tortas">
+                        <div class="product-img-box">
+                            <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Torta Tres Leches">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Torta Tres Leches</h3>
+                            <div class="product-bottom">
+                                <span class="product-portion">8 porciones</span>
+                                <span class="product-price">$55.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-cat="tortas">
+                        <div class="product-img-box">
+                            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Torta Temática">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Torta Temática / Personalizada</h3>
+                            <div class="product-bottom">
+                                <span class="product-portion">15-20 porciones</span>
+                                <span class="product-price">Desde $110.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-cat="fit" id="fit-line">
+                        <div class="product-img-box">
+                            <span class="badge-fit-label">Sin Azúcar</span>
+                            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Brownie Fit">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Brownie Sin Azúcar Añadida</h3>
+                            <div class="product-sweetener">✨ Con Alulosa</div>
+                            <div class="product-bottom">
+                                <span class="product-portion">Unidad</span>
+                                <span class="product-price">$6.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-cat="fit">
+                        <div class="product-img-box">
+                            <span class="badge-fit-label">Sin Azúcar</span>
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Torta Chocolate Fit">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Torta Chocolate Alulosa + Stevia</h3>
+                            <div class="product-sweetener">🍃 Alulosa + Stevia</div>
+                            <div class="product-bottom">
+                                <span class="product-portion">8 porciones</span>
+                                <span class="product-price">$70.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-cat="postres">
+                        <div class="product-img-box">
+                            <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Tiramisú">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Tiramisú en Vaso</h3>
+                            <div class="product-bottom">
+                                <span class="product-portion">Vaso Individual</span>
+                                <span class="product-price">$10.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-cat="regalos">
+                        <div class="product-img-box">
+                            <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Caja Romántica">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Caja Romántica</h3>
+                            <div class="product-bottom">
+                                <span class="product-portion">Mini Torta + 2 Cupcakes</span>
+                                <span class="product-price">$45.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Mapa de Procesos (Usa la imagen de la carpeta img) -->
+        <section id="procesos">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Diagrama Operativo</span>
+                    <h2 class="section-title">Mapa de Procesos - Dulce Tentación</h2>
+                </div>
+
+                <div class="diagram-img-card">
+                    <img src="img/mapa_procesos.jpeg" class="diagram-img" alt="Mapa de Procesos Dulce Tentación">
+                </div>
+            </div>
+        </section>
+
+        <!-- Organigrama (Usa la imagen de la carpeta img) -->
+        <section id="organigrama" style="background:#fdf5f0;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Estructura Organizacional</span>
+                    <h2 class="section-title">Organigrama Institucional</h2>
+                </div>
+
+                <div class="diagram-img-card">
+                    <img src="img/organigrama.jpg" class="diagram-img" alt="Organigrama Dulce Tentación">
+                </div>
+            </div>
+        </section>
+
+        <!-- Historia y Equipo -->
+        <section id="historia">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Nosotros</span>
+                    <h2 class="section-title">Nuestra Historia & Equipo Fundador</h2>
+                </div>
+                <div style="background:var(--white); padding:2.5rem; border-radius:var(--radius-large); box-shadow:var(--shadow-soft);">
+                    <p style="line-height:1.8; color:var(--text-muted); margin-bottom:1.5rem;">
+                        En el año 2015, en el corazón de Bogotá, lo que comenzó como charlas entre cinco amigos apasionados por la gastronomía —Yeimi, Stefany, Carolain, Viviana y Juan David— se convirtió en <strong>Dulce Tentación</strong>. Lo que inició en una cocina acogedora experimentando con recetas familiares hoy es una marca consolidada en la producción y comercialización de postres de alta calidad.
+                    </p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        <span style="background:var(--pink-soft); color:var(--pink-primary); padding:6px 14px; border-radius:20px; font-weight:700; font-size:0.85rem;">👩‍🍳 Stefany Vanegas</span>
+                        <span style="background:var(--pink-soft); color:var(--pink-primary); padding:6px 14px; border-radius:20px; font-weight:700; font-size:0.85rem;">👩‍🍳 Yeimi Peña</span>
+                        <span style="background:var(--pink-soft); color:var(--pink-primary); padding:6px 14px; border-radius:20px; font-weight:700; font-size:0.85rem;">👩‍🍳 Carolain Giraldo</span>
+                        <span style="background:var(--pink-soft); color:var(--pink-primary); padding:6px 14px; border-radius:20px; font-weight:700; font-size:0.85rem;">👩‍🍳 Viviana García</span>
+                        <span style="background:var(--pink-soft); color:var(--pink-primary); padding:6px 14px; border-radius:20px; font-weight:700; font-size:0.85rem;">👨‍🍳 Juan David Echeverry</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Misión y Visión -->
+        <section id="filosofia" style="background:#fdf5f0;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Institucional</span>
+                    <h2 class="section-title">Misión & Visión</h2>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+                    <div style="background:var(--white); padding:2rem; border-radius:var(--radius-medium);">
+                        <h3 style="color:var(--chocolate-dark); margin-bottom:10px;">🎯 Misión</h3>
+                        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">
+                            Producir y comercializar postres artesanales de la más alta calidad, brindando momentos de felicidad y deleite a nuestros clientes a través de sabores auténticos y un servicio cercano.
+                        </p>
+                    </div>
+
+                    <div style="background:var(--white); padding:2rem; border-radius:var(--radius-medium);">
+                        <h3 style="color:var(--chocolate-dark); margin-bottom:10px;">🚀 Visión (2030)</h3>
+                        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">
+                            Para el año 2030, ser reconocidos como la empresa líder en el sector de la repostería y pastelería, destacándonos por la innovación de nuestras recetas y excelencia en cada hogar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Encuesta -->
+        <section id="contacto">
+            <div class="container">
+                <div class="survey-card">
+                    <h2 style="font-size:2rem; margin-bottom:1.5rem; text-align:center;">Queremos Conocer tu Opinión</h2>
+                    <form onsubmit="handleFormSubmit(event)">
+                        <div class="survey-grid">
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" class="form-input" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Correo Electrónico</label>
+                                <input type="email" class="form-input" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="form-group full">
+                                <label>Comentarios o Sugerencias</label>
+                                <textarea class="form-textarea" rows="3" placeholder="¿Qué producto te gustaría que ofreciéramos?"></textarea>
+                            </div>
+                        </div>
+                        <div style="text-align:center; margin-top:1.5rem;">
+                            <button type="submit" style="background:var(--pink-primary); color:var(--white); border:none; padding:12px 30px; border-radius:30px; font-weight:700; cursor:pointer;">
+                                🍰 ENVIAR RESPUESTA
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de Página -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <strong style="color:var(--white); font-size:1.1rem;">🍰 Dulce Tentación S.A.S</strong>
+                    <p style="margin-top:4px;">Técnico en Talento Humano - SENA (Código 134207)</p>
+                </div>
+                <div>
+                    <p>© 2026 Todos los derechos reservados. Creado para Dulce Tentación.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+
+        function toggleDonutMenu() {
+            const overlay = document.getElementById('donutOverlay');
+            overlay.classList.toggle('active');
+        }
+
+        function filterCategory(category, element) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                } else {
+                    const cardCat = card.getAttribute('data-cat');
+                    if (cardCat === category) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('¡Muchas gracias por enviar tu respuesta a Dulce Tentación!');
+        }
+    </script>
+</body>
+</html>
